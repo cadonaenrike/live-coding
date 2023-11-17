@@ -7,7 +7,7 @@ interface SortSelectProps {
 }
 
 const SortSelect: React.FC<SortSelectProps> = ({ ordem, onOrdemChange }) => (
-  <FormControl>
+  <FormControl fullWidth>
     <InputLabel>Ordenar por</InputLabel>
     <Select
       value={ordem}

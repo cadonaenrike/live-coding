@@ -18,7 +18,7 @@ const FilterSelect: React.FC<FilterSelectProps> = ({
     .filter((value, index, self) => self.indexOf(value) === index);
 
   return (
-    <FormControl>
+    <FormControl fullWidth>
       <InputLabel>Filtrar por tipo</InputLabel>
       <Select
         value={filtroTipo}

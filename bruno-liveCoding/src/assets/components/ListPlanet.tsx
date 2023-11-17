@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { List, ListItem, ListItemText, Typography } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+} from "@mui/material";
 import { Planeta, PlanetaDetalhes } from "../../Types/PlanetaType";
 import PlanetDetails from "./PlanetDetails";
 
@@ -63,26 +70,32 @@ const PlanetList: React.FC<PlanetListProps> = ({ planetas, onBodyClick }) => {
   };
 
   return (
-    <div>
-      {planetas.length === 0 ? (
-        <Typography variant="body2">
-          Nenhum planeta corresponde aos filtros selecionados.
-        </Typography>
-      ) : (
-        <List>
-          {planetas.map((planeta) => (
-            <div key={planeta.id}>
-              <ListItem button onClick={() => handleNameClick(planeta.id)}>
-                <ListItemText primary={planeta.name} />
-              </ListItem>
-              {planetaSelecionado?.id === planeta.id && (
-                <PlanetDetails detalhes={planetaSelecionado} />
-              )}
-            </div>
-          ))}
-        </List>
-      )}
-    </div>
+    <Card
+      sx={{ width: "100%" }}
+      elevation={3}
+      style={{ maxHeight: 400, overflowY: "auto" }}
+    >
+      <CardContent>
+        {planetas.length === 0 ? (
+          <Typography variant="body2">
+            Nenhum planeta corresponde aos filtros selecionados.
+          </Typography>
+        ) : (
+          <List>
+            {planetas.map((planeta) => (
+              <div key={planeta.id}>
+                <ListItem button onClick={() => handleNameClick(planeta.id)}>
+                  <ListItemText primary={planeta.name} />
+                </ListItem>
+                {planetaSelecionado?.id === planeta.id && (
+                  <PlanetDetails detalhes={planetaSelecionado} />
+                )}
+              </div>
+            ))}
+          </List>
+        )}
+      </CardContent>
+    </Card>
   );
 };
 

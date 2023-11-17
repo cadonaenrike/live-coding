@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, Typography, Snackbar } from "@mui/material";
+import { Container, Typography, Snackbar, Box } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
 import SearchBar from "./assets/components/Campbusca";
 import FilterSelect from "./assets/components/SelectFiltro";
@@ -9,16 +9,13 @@ import solarSystemService, {
   SolarSystemServiceError,
 } from "./assets/services/SistemSolarService";
 import { Planeta, PlanetaDetalhes } from "./Types/PlanetaType";
-import { ContagemConhecida } from "./Types/ContagemType";
 
 const App: React.FC = () => {
   const [planetas, setPlanetas] = useState<Planeta[]>([]);
   const [termoBusca, setTermoBusca] = useState<string>("");
   const [filtroTipo, setFiltroTipo] = useState<string>("");
   const [ordem, setOrdem] = useState<string>("asc");
-  const [contagensConhecidas, setContagensConhecidas] = useState<
-    ContagemConhecida[]
-  >([]);
+
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [planetaSelecionado, setPlanetaSelecionado] =
@@ -27,11 +24,7 @@ const App: React.FC = () => {
   const fetchData = async () => {
     try {
       const planetasData = await solarSystemService.getPlanetas();
-      const contagensData = await solarSystemService.getContagensConhecidas();
-      const contagensArray = Array.isArray(contagensData) ? contagensData : [];
-
       setPlanetas(planetasData);
-      setContagensConhecidas(contagensArray);
     } catch (error) {
       console.error("Erro ao buscar dados:", error);
       handleSolarSystemError(error as SolarSystemServiceError);
@@ -126,25 +119,43 @@ const App: React.FC = () => {
     );
 
   return (
-    <Container>
-      <Typography variant="h1" gutterBottom>
-        Sistema Solar
-      </Typography>
-      <SearchBar termoBusca={termoBusca} onSearchChange={setTermoBusca} />
-      <FilterSelect
-        filtroTipo={filtroTipo}
-        onFiltroTipoChange={setFiltroTipo}
-        planetas={planetas}
-      />
-      <SortSelect ordem={ordem} onOrdemChange={setOrdem} />
+    <Container maxWidth="sm">
+      <Box my={4}>
+        <Typography variant="h2" align="center">
+          Sistema Solar
+        </Typography>
+      </Box>
+      <Box border={3} my={2}>
+        <Typography
+          variant="h5"
+          margin={2}
+          align="center"
+          style={{ fontSize: "1.5rem" }}
+        >
+          "" isso e um lembrete da minha falha "" <br />
+          Em algum dia vou rir disso!!
+          <p style={{ fontSize: "1rem" }}>
+            <b>(obs falhei no tempo e na leitura da api)</b>
+          </p>
+        </Typography>
+      </Box>
 
-      <PlanetList planetas={planetasFiltrados} onBodyClick={handleBodyClick} />
+      <Box display="flex" alignItems="center">
+        <SearchBar termoBusca={termoBusca} onSearchChange={setTermoBusca} />
+        <FilterSelect
+          filtroTipo={filtroTipo}
+          onFiltroTipoChange={setFiltroTipo}
+          planetas={planetas}
+        />
+        <SortSelect ordem={ordem} onOrdemChange={setOrdem} />
+      </Box>
 
-      <ul>
-        {contagensConhecidas.map((contagem) => (
-          <li key={contagem.id}>{`${contagem.id}: ${contagem.count}`}</li>
-        ))}
-      </ul>
+      <Box my={2}>
+        <PlanetList
+          planetas={planetasFiltrados}
+          onBodyClick={handleBodyClick}
+        />
+      </Box>
 
       <Snackbar
         open={snackbarOpen}

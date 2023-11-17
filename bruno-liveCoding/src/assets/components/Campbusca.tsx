@@ -11,6 +11,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   onSearchChange,
 }) => (
   <TextField
+    fullWidth
     type="text"
     label="Buscar por nome"
     value={termoBusca}
